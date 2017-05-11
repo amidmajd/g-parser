@@ -1,5 +1,5 @@
 # G_Parser
-check a grammar if contains a string or not
+Check a grammar if contains a string or not
 
 
 Developed by AmidMajd
