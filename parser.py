@@ -1,13 +1,7 @@
 from colorama import Fore, Back, Style
 var = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-alphabet = "abcdefghijklmnopqrstuvwxyz"
-s_input = "abbc" #input("Enter string : ")
-g_input = "S=AB , A=aA|a , B=bBC|b , C=c" #input("Enter Grammar in this format ((S=AB , A=aA|a , B=bB|b)) (S =>Start): \n")
-print()
-print(Fore.BLUE + "Checking",end="")
-for i in range(20):
-	print(".",end="")
-print(Style.RESET_ALL + "\n")
+s_input = input("Enter string : ")
+g_input = input("Enter Grammar in this format ((S=AB , A=aA|a , B=bB|b)) and (S as Start): \n") 
 
 grammar = {}
 for i in range(0,len(g_input)):
@@ -34,10 +28,8 @@ for i in range(0,len(g_input)):
 			grammar[g_input[i-1]] = (g_input[i+1:j] ,'')
 		else : 
 			grammar[g_input[i-1]] = (g_input[i+1:k] , g_input[k+1:j])
-
-
-print("Grammar =" ,grammar)
-#putting grammar in a dict 
+#putting grammar in a DICT
+#print("Grammar :" ,grammar)
 
 prefix = ['']
 for i in range(0,len(s_input)):
@@ -60,27 +52,34 @@ def parser(g):
 	parse_check = False
 	while parse_check == False:
 		try:
-			root = queue.pop(0)
+			root = queue.pop(0) 
 		except Exception:
 			return False
 		#if the queue has been empty shows end of check 
 		v_c_0 = var_check(root)[0]
 		v_c_1 = var_check(root)[1]
-		if v_c_0 == True:
+		if v_c_0 == True: #first step : check for variable 
 			prefix_check = False
 			for p in prefix:
 				if p == root[:v_c_1]:
 					prefix_check = True
-			if prefix_check == True:
-				for c in range(0,len(g[root[v_c_1]])):
-					queue.append(root[:v_c_1]+(g[root[v_c_1]])[c]+root[v_c_1+1:])
+				#second step: check if the first part befor first variable 
+				#of grammar is equal to one of prefixes or not
+			if prefix_check == True:  
+				try:
+					for c in range(0,len(g[root[v_c_1]])):
+						queue.append(root[:v_c_1]+(g[root[v_c_1]])[c]+root[v_c_1+1:])  #placing grammar child instead of it (first left variable)
+				except KeyError:
+					pass
 		else : #without child
 			if root == s_input:
-				return True # return true if equal statement was true
+				return True 
 	return parse_check # return false if while didn't work
 
-
-
+print(Fore.BLUE + Back.LIGHTCYAN_EX + "Checking",end="")
+for i in range(20):
+	print(".",end="")
+print(Style.RESET_ALL + "")
 
 if parser(grammar) == True:
 	print()
