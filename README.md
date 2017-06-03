@@ -1,2 +1,2 @@
 # G_Parser
-Check a grammar if contains a string or not
+Check a grammar if it contains a string or not
